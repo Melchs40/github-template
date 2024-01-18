@@ -1,80 +1,51 @@
 import './style.css';
+// eslint-disable-next-line import/no-cycle
+import fetchWeather from './fetch-weather';
 
+// create content and header container
 const content = document.getElementById('content');
-let currentWeather = [];
-const currentIcon = document.createElement('img');
-currentIcon.src = '';
-const futureForecasts = [];
-let city = 'Chicago';
-const inputBox = document.createElement('input');
+const topContainer = document.createElement('div');
+content.appendChild(topContainer);
+
+// create title
+const title = document.createElement('h1');
+title.innerHTML = 'QuickWeather';
+topContainer.appendChild(title);
+
+// create search box
+export const inputBox = document.createElement('input');
 inputBox.type = 'text';
 inputBox.id = 'box';
+inputBox.placeholder = 'Enter City Name...';
+export let city = 'Oshkosh';
+topContainer.appendChild(inputBox);
+
+// create search button
 const searchBtn = document.createElement('button');
-searchBtn.innerHTML = 'Search';
-const infoDiv = document.createElement('div');
-const currentInfo = document.createElement('div');
-content.appendChild(inputBox);
-content.appendChild(searchBtn);
+searchBtn.innerHTML = 'Get Weather!';
+topContainer.appendChild(searchBtn);
+
+// create empty arrays for forecasts and icon placement
+export let currentWeather = [];
+export const futureForecasts = [];
+export const currentIcon = document.createElement('img');
+currentIcon.src = '';
+
+export const infoDiv = document.createElement('div');
+infoDiv.id = 'infoDiv';
+export const currentInfo = document.createElement('div');
+
 content.appendChild(infoDiv);
-
-async function fetchWeather() {
-  try {
-    const response = await fetch(
-      `https://api.weatherapi.com/v1/forecast.json?key=a9a835bcf54a452985d185926233012&q=${city}&days=3`
-    );
-    const weatherData = await response.json();
-
-    console.log(weatherData);
-    currentWeather.push(`Location: ${weatherData.location.name}`);
-    currentWeather.push(`Condition: ${weatherData.current.condition.text}`);
-    currentIcon.src = `https:${weatherData.current.condition.icon}`;
-    currentWeather.push(`Temperature: ${weatherData.current.temp_f}`);
-    currentWeather.push(`Feels like: ${weatherData.current.feelslike_f}`);
-    currentWeather.push(`Wind: ${weatherData.current.wind_mph}`);
-    currentInfo.innerHTML = `${currentWeather[0]}, ${currentWeather[1]}, ${
-      currentWeather[2].split('.')[0]
-    }, ${currentWeather[3].split('.')[0]}, ${currentWeather[4].split('.')[0]}`;
-    infoDiv.appendChild(currentInfo);
-    infoDiv.appendChild(currentIcon);
-
-    for (let i = 0; i < 3; i++) {
-      const forecastData = [];
-      const futureIcon = document.createElement('img');
-      futureIcon.src = '';
-      forecastData.push(
-        `Condition: ${weatherData.forecast.forecastday[i].day.condition.text}`
-      );
-      futureIcon.src = `https:${weatherData.forecast.forecastday[i].day.condition.icon}`;
-      forecastData.push(
-        `High Temp: ${weatherData.forecast.forecastday[i].day.maxtemp_f}`
-      );
-      forecastData.push(
-        `Low Temp: ${weatherData.forecast.forecastday[i].day.mintemp_f}`
-      );
-      forecastData.push(
-        `Max Wind: ${weatherData.forecast.forecastday[i].day.maxwind_mph}`
-      );
-
-      const forecastInfo = document.createElement('div');
-      forecastInfo.innerHTML = `${forecastData[0]}, ${
-        forecastData[1].split('.')[0]
-      }, ${forecastData[2].split('.')[0]}, ${forecastData[3].split('.')[0]}`;
-      infoDiv.appendChild(forecastInfo);
-      infoDiv.appendChild(futureIcon);
-      futureForecasts.push(forecastData);
-    }
-  } catch (error) {
-    console.log(error);
-  } finally {
-    inputBox.value = '';
-  }
-}
 
 fetchWeather();
 
+// create event listener to change weather to specific city
 searchBtn.addEventListener('click', () => {
   while (infoDiv.firstChild) {
     infoDiv.removeChild(infoDiv.firstChild);
+  }
+  while (currentInfo.firstChild) {
+    currentInfo.removeChild(currentInfo.firstChild);
   }
   city = inputBox.value;
   currentWeather = [];
