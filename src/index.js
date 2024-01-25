@@ -68,6 +68,9 @@ searchBtn.addEventListener('click', () => {
   topContainer.appendChild(title);
   topContainer.appendChild(searchBox);
   city = inputBox.value;
+  if (inputBox.value === '') {
+    city = 'London';
+  }
   currentWeather = [];
   fetchWeather();
 });

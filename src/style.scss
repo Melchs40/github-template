@@ -77,6 +77,10 @@ body {
   font-size: 20px;
 }
 
+#search-btn:focus {
+  outline: none;
+}
+
 #info-div {
   grid-area: 2/1/3/2;
   display: grid;
@@ -248,8 +252,8 @@ body {
   border-radius: 50%;
   border: 10px solid transparent;
   background-color: none;
-  border-top-color: purple;
-  border-bottom-color: purple;
+  border-top-color: rgb(117, 57, 201);
+  border-bottom-color: rgb(117, 57, 201);
   animation: spin 2s linear;
 }
 
