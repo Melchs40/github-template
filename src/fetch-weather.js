@@ -12,11 +12,12 @@ import {
 
 export default async function fetchWeather() {
   try {
-    infoDiv.classList.add('testing');
+    // infoDiv.classList.add('testing');
 
     const response = await fetch(
       `https://api.weatherapi.com/v1/forecast.json?key=a9a835bcf54a452985d185926233012&q=${city}&days=3`
     );
+
     const weatherData = await response.json();
 
     infoDiv.appendChild(currentInfo);
@@ -195,7 +196,14 @@ export default async function fetchWeather() {
       futureForecasts.push(forecastData);
     }
   } catch (error) {
-    console.log(error);
+    if (error.constructor === TypeError) {
+      alert(
+        'We were not able to find this city, please double check your spelling or try another city.'
+      );
+      console.log(error);
+    } else {
+      console.log(error);
+    }
   } finally {
     inputBox.value = '';
     infoDiv.classList.remove('testing');

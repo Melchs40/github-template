@@ -55,7 +55,29 @@ body.appendChild(footer);
 fetchWeather();
 
 // create event listener to change weather to specific city
-searchBtn.addEventListener('click', () => {
+searchBtn.addEventListener('click', async () => {
+  city = inputBox.value;
+  if (inputBox.value === '') {
+    city = 'London';
+  }
+  try {
+    infoDiv.classList.add('testing');
+    const response = await fetch(
+      `https://api.weatherapi.com/v1/forecast.json?key=a9a835bcf54a452985d185926233012&q=${city}&days=3`
+    );
+    const data = await response.json();
+    if (data.error.message === 'No matching location found.') {
+      infoDiv.classList.remove('testing');
+      alert(
+        'We were not able to find this city, please double check your spelling or try another city.'
+      );
+      return;
+    }
+    console.log('Data fetched successfully:', data);
+  } catch (error) {
+    console.error('Error fetching data:', error);
+  }
+
   while (infoDiv.firstChild) {
     infoDiv.removeChild(infoDiv.firstChild);
   }
@@ -67,10 +89,6 @@ searchBtn.addEventListener('click', () => {
   }
   topContainer.appendChild(title);
   topContainer.appendChild(searchBox);
-  city = inputBox.value;
-  if (inputBox.value === '') {
-    city = 'London';
-  }
   currentWeather = [];
   fetchWeather();
 });

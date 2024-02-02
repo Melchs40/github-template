@@ -244,32 +244,37 @@ body {
 }
 
 .testing {
-  margin-top: 200px;
-  justify-self: center;
-  align-self: center;
-  height: 100px;
-  width: 100px;
-  border-radius: 50%;
-  border: 10px solid transparent;
-  background-color: none;
-  border-top-color: rgb(117, 57, 201);
-  border-bottom-color: rgb(117, 57, 201);
-  animation: spin 2s linear;
+  // margin-top: 200px;
+  // justify-self: center;
+  // align-self: center;
+  // height: 100px;
+  // width: 100px;
+  // border-radius: 50%;
+  // border: 10px solid transparent;
+  // background-color: none;
+  // border-top-color: rgb(117, 57, 201);
+  // border-bottom-color: rgb(117, 57, 201);
+  animation: spin 0.1s linear infinite;
 }
 
 @keyframes spin {
   0% {
-    transform: rotate(0deg);
-    scale: 1;
+    transform: translateX() (0px);
   }
 
-  20% {
-    transform: rotate(45deg);
-    scale: 1.2;
+  25% {
+    transform: translateX(-10px);
+  }
+
+  50% {
+    transform: translateX(0px);
+  }
+
+  75% {
+    transform: translateX(10px);
   }
 
   100% {
-    transform: rotate(360deg);
-    scale: 1;
+    transform: rotate(0px);
   }
 }
